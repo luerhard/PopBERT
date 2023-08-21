@@ -1,0 +1,76 @@
+[tool.black]
+line-length = 100
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+ignore_missing_imports = true
+implicit_reexport = true
+python_version = "3.9"
+
+[tool.isort]
+force_single_line = true
+profile = "black"
+known_local_folder = "src"
+
+[tool.poetry]
+name = "bert-populism"
+version = "0.1.0"
+description = ""
+authors = ["Lukas Erhard <luerhard@googlemail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^1.5.0"
+matplotlib = "^3.7.1"
+skorch = "^0.12.1"
+transformers = "^4.27.4"
+tqdm = "^4.65.0"
+SQLAlchemy = {extras = ["mypy"], version = "^2.0.15"}
+seaborn = "^0.12.2"
+modAL = "^0.4.1"
+nltk = "^3.8.1"
+pandarallel = "^1.6.4"
+ipykernel = "^6.22.0"
+spacy = "^3.5.1"
+ipywidgets = "^8.0.6"
+pyarrow = "^11.0.0"
+psycopg = {extras = ["binary"], version = "^3.1.8"}
+sentencepiece = "^0.1.99"
+sacremoses = "^0.0.53"
+importlib-metadata = "^6.6.0"
+openpyxl = "^3.1.2"
+statsmodels = "^0.14.0"
+altair = "^5.0.1"
+altair-saver = "^0.5.0"
+rpy2 = "^3.5.13"
+plotnine = "^0.12.2"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.2.0"
+pytest = "^7.3.1"
+pytest-regressions = "^2.4.2"
+black = "^23.3.0"
+flake8 = "^6.0.0"
+
+
+[tool.poetry.group.web.dependencies]
+fastapi = "^0.95.1"
+uvicorn = "^0.21.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
