@@ -1,0 +1,233 @@
+---
+title: "wordfish left-right"
+output: html_document
+date: "2023-12-08"
+---
+
+```{r setup, include=FALSE}
+library(here)
+library(reticulate)
+#reticulate::use_virtualenv(here(".venv/"), required = T)
+
+library(tidyverse)
+library(magrittr)
+library(pacman)
+
+pacman::p_load(
+  "quanteda",
+  "quanteda.textmodels",
+  "quanteda.textplots"
+)
+
+```
+
+```{r}
+df <- read_csv(here("wordfish.csv"))
+```
+
+
+# Versuch mit all the data
+
+```{r}
+speeches <- df %>%
+  group_by(faction, group) %>%
+  filter(n() > 4) %>%
+  summarize(
+    speech = paste0(text, collapse = " "),
+    left = mean(left),
+    right = mean(right)
+) %>% 
+ungroup()
+```
+
+```{r}
+corp <- quanteda::corpus(speeches, text_field="speech")
+```
+
+```{r}
+
+most_left <- speeches %>% 
+  mutate(row = 1:n()) %>%
+  filter(group == 13413) %>% 
+  pull(row)
+
+most_left_right <- c(most_left, which.max(speeches$right))
+
+```
+
+```{r}
+speeches[most_left_right,]
+```
+
+
+```{r}
+toks <- quanteda::tokens(corp, remove_punct=TRUE) %>% 
+  tokens_remove(pattern = stopwords(language = "de", source = "marimo"))
+dfmat <- dfm(toks)
+dfmat <- dfm_trim(dfmat, termfreq_type="count", min_termfreq=10)
+```
+
+
+```{r}
+wordfish <- textmodel_wordfish(dfmat, dir = most_left_right)
+```
+
+```{r}
+
+left_right <- df %>%
+  mutate(    
+    right = ifelse(right > 0.302714, 1, 0),
+    left = ifelse(left > 0.429109, 1, 0)
+  ) %>% 
+  group_by(faction, group) %>%
+  filter(n() > 4) %>%
+  summarize(
+    speech = paste0(text, collapse = " "),
+    left = mean(left),
+    right = mean(right)
+) %>% 
+ungroup()
+
+y_pred <- tibble(
+  text = wordfish$x@docvars$docname_,
+  group = wordfish$x@docvars$group,
+  wordfish_position = wordfish$theta,
+  faction = wordfish$x@docvars$faction,
+) %>% 
+left_join(left_right %>% select(left, right, group), by=join_by(group == group)) %>% 
+  mutate(diff = right - left)
+
+```
+
+```{r}
+cor(y_pred$wordfish_position, y_pred$diff, method="pearson")
+cor(y_pred$wordfish_position, y_pred$diff, method="spearman")
+```
+
+
+
+```{r}
+tibble(faction = wordfish$x$faction, theta=wordfish$theta) %>% 
+  group_by(faction) %>% 
+  summarize(mean = mean(theta)) %>% 
+  arrange(mean)
+```
+
+```{r}
+y_pred %>% 
+  group_by(faction) %>% 
+  summarize(mean = mean(diff)) %>% 
+  arrange(mean)
+```
+
+```{r}
+y_pred %>% 
+  group_by(faction) %>%
+  summarize(sum = sum(left)) %>% 
+  arrange(sum)
+```
+```{r}
+y_pred %>% 
+  group_by(faction) %>%
+  summarize(sum = sum(right)) %>% 
+  arrange(sum)
+```
+# Versuch mit unseren Labels
+
+```{python}
+import pandas as pd
+from sqlalchemy.orm import Query
+
+import src
+from src.bert.dataset import PBertDataset
+from src.bert.dataset import strategies
+from src.db.connect import make_engine
+import src.db.models.bert_data as bm
+import src.db.models.open_discourse as od
+
+
+dataset = PBertDataset.from_disk(
+    path=src.PATH / "data/bert/dataset.csv.zip",
+    label_strategy=strategies.MLMin1PopIdeol(),
+)
+
+votes = pd.DataFrame(
+  dataset.df_labels.vote.to_list(), 
+  columns=["elite", "centr", "left", "right"],
+)
+
+df = pd.concat(
+  [
+    dataset.df_labels[["id", "text"]], 
+    votes[["left", "right"]]
+  ], 
+  axis=1, 
+)
+
+# get metadata
+
+
+engine = make_engine("DB")
+
+query = (
+  Query(bm.Sample)
+  .join(od.Speech)
+  .join(od.Faction)
+  .filter(
+    bm.Sample.id.in_(df.id)
+  )
+  .with_entities(
+    bm.Sample.id,
+    od.Faction.abbreviation.label("faction"),
+  )
+)
+
+
+with engine.connect() as con:
+  meta = pd.read_sql(query.statement, con)
+  
+
+df = pd.merge(df, meta, on="id", how="inner")
+df.index = range(1, len(df) +  1)
+
+```
+
+```{r}
+df <- tibble(py$df)
+```
+
+
+```{r}
+anchor_left_id <- c(40876)
+anchor_right_id <- c(61713)
+
+anchor_left_index <- df %>%
+  mutate(i = 1:n()) %>% 
+  filter(id == !!anchor_left_id) %>% 
+  pull(i)
+
+anchor_right_index <- df %>%
+  mutate(i = 1:n()) %>% 
+  filter(id == !!anchor_right_id) %>% 
+  pull(i)
+
+```
+
+
+```{r}
+corp <- quanteda::corpus(df, text_field="text")
+toks <- quanteda::tokens(corp, remove_punct=TRUE) %>% 
+  tokens_remove(pattern = stopwords(language = "de", source = "marimo"))
+dfmat <- dfm(toks)
+dfmat <- dfm_trim(dfmat, termfreq_type="count", min_termfreq=3)
+```
+
+
+
+```{r}
+wordfish <- textmodel_wordfish(dfmat, dir = c(anchor_left_index, anchor_right_index))
+```
+
+
+
+
