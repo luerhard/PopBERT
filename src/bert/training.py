@@ -38,17 +38,29 @@ def eval_epoch(model, dataloader):
             encodings = encodings.to(DEVICE)
             labels = batch["labels"].to(DEVICE)
             out = model(**encodings, labels=labels)
-            preds = torch.nn.functional.sigmoid(out.logits)
+            if model.config.problem_type == "multi_label_classification":
+                preds = torch.nn.functional.sigmoid(out.logits)
+            elif model.config.problem_type == "single_label_classification":
+                preds = torch.nn.functional.softmax(out.logits)
 
             eval_loss += out.loss.item()
             y_true.extend(batch["labels"].numpy())
             y_pred.extend(preds.to("cpu").detach().numpy())
 
     y_true = np.array(y_true)
-    y_pred_bin = np.where(np.array(y_pred) > 0.5, 1, 0)
-    score = f1_score(np.array(y_true), np.array(y_pred_bin), average="macro")
+    if model.config.problem_type == "multi_label_classification":
+        y_pred_bin = np.where(np.array(y_pred) > 0.5, 1, 0)
+        thresh_finder = bert_utils.ThresholdFinder(type="single_task")
+        thresholds = thresh_finder.find_thresholds(np.array(y_true), np.array(y_pred))
+    elif model.config.problem_type == "single_label_classification":
+        y_pred_bin = np.argmax(np.array(y_pred), axis=1)
+        thresholds = {k: 0.5 for k in range(model.config.num_labels)}
 
-    thresh_finder = bert_utils.ThresholdFinder(type="single_task")
-    thresholds = thresh_finder.find_thresholds(np.array(y_true), np.array(y_pred))
+    try:
+        score = f1_score(np.array(y_true), np.array(y_pred_bin), average="macro")
+    except:  # noqa: E722
+        print(f"YTRUE: {y_true.shape}")
+        print(f"YPRED: {y_pred_bin.shape}")
+        raise
 
     return eval_loss, score, thresholds

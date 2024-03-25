@@ -1,0 +1,19 @@
+schema: '2.0'
+stages:
+  annotator_performance:
+    cmd: R -e "renv::activate()" && poetry run papermill code/01-annotator_performance.ipynb
+      code/01-annotator_performance.ipynb
+    deps:
+    - path: code/01-annotator_performance.ipynb
+      hash: md5
+      md5: fc9a5404b153560e82d96370a59641c1
+      size: 18565
+    - path: data/labeled_data/full.csv.zip
+      hash: md5
+      md5: deb1823412f6e35fd2ad67c90e0dec13
+      size: 1082555
+    outs:
+    - path: results/tables/coder_agreement.tex
+      hash: md5
+      md5: 728d500870ac7eba87e75f057f760278
+      size: 649

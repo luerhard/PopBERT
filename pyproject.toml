@@ -13,6 +13,9 @@ exclude = '''
   | dist
 )/
 '''
+[tool.ruff]
+select = ["ALL"]
+
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -33,21 +36,21 @@ readme = "README.md"
 packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.12"
 pandas = "^1.5.0"
 matplotlib = "^3.7.1"
-skorch = "^0.12.1"
 transformers = "^4.27.4"
 tqdm = "^4.65.0"
+numpy = "^1.26.0"
+scipy = "^1.11"
 SQLAlchemy = {extras = ["mypy"], version = "^2.0.15"}
 seaborn = "^0.12.2"
-modAL = "^0.4.1"
 nltk = "^3.8.1"
 pandarallel = "^1.6.4"
 ipykernel = "^6.22.0"
 spacy = "^3.5.1"
 ipywidgets = "^8.0.6"
-pyarrow = "^11.0.0"
+pyarrow = "^14.0.0"
 psycopg = {extras = ["binary"], version = "^3.1.8"}
 sentencepiece = "^0.1.99"
 sacremoses = "^0.0.53"
@@ -58,6 +61,13 @@ altair = "^5.0.1"
 altair-saver = "^0.5.0"
 rpy2 = "^3.5.13"
 plotnine = "^0.12.2"
+skorch = "^0.15.0"
+ray = {extras = ["tune"], version = "^2.8.0"}
+optuna = "^3.4.0"
+accelerate = "^0.24.1"
+nbconvert = "^7.16.2"
+dvc = "^3.48.4"
+papermill = "^2.5.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.2.0"
@@ -65,6 +75,7 @@ pytest = "^7.3.1"
 pytest-regressions = "^2.4.2"
 black = "^23.3.0"
 flake8 = "^6.0.0"
+notebook = "^7.1.1"
 
 
 [tool.poetry.group.web.dependencies]

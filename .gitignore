@@ -187,3 +187,4 @@ config.ini
 .vscode/**
 tmp/**
 *.db
+.DS_Store

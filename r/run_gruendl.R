@@ -1,11 +1,9 @@
-if (!is.element("pacman", installed.packages()[,1])) {
-  install.packages("pacman")
-}
-
-library("pacman")
-
-pacman::p_load("quanteda", "tidyverse", "optparse", "arrow")
-pacman::p_load_gh("jogrue/regexhelpeR", "jogrue/multidictR", "jogrue/popdictR")
+library(quanteda)
+library(tidyverse)
+library(optparse)
+library(arrow)
+library(popdictR)
+library(here)
 
 option_list <- list(
   make_option(c("-f", "--file"), type="character", default=NULL,

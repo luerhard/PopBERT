@@ -1,0 +1,8 @@
+stages:
+  annotator_performance:
+    cmd: R -e "renv::activate()" && poetry run papermill code/01-annotator_performance.ipynb code/01-annotator_performance.ipynb
+    deps:
+      - code/01-annotator_performance.ipynb
+      - data/labeled_data/full.csv.zip
+    outs:
+      - results/tables/coder_agreement.tex

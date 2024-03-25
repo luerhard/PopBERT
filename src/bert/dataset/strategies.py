@@ -42,6 +42,8 @@ class LabelStrategy(metaclass=ABCMeta):
             else:
                 labels = np.array(vote)
 
+            print(labels)
+
             encoding = tokenizer(text, padding=True, return_tensors="pt")
 
             return {
@@ -60,6 +62,28 @@ class BaseMultiClassStrategy(LabelStrategy, metaclass=ABCMeta):
         values, counts = np.unique(votes, return_counts=True)
         majority_vote = values[counts.argmax()]
         return majority_vote
+
+    def create_collator(self, tokenizer):
+        def collate_fn(batch):
+            nonlocal tokenizer
+
+            text = [d["text"] for d in batch]
+            vote = [d["vote"] for d in batch]
+            if self.output_fmt == "multi_task":
+                labels = np.array([d["labels"] for d in batch])
+            else:
+                labels = np.array(vote)
+
+            encoding = tokenizer(text, padding=True, return_tensors="pt")
+
+            return {
+                "encodings": encoding,
+                "text": text,
+                "labels": torch.LongTensor(labels),
+                "vote": vote,
+            }
+
+        return collate_fn
 
 
 class BaseMultiLabelStrategy(LabelStrategy):
