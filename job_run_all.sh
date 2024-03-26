@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=dvc repro
+#SBATCH --job-name=dvc_repro
 #SBATCH --partition=single
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=10

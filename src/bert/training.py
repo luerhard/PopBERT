@@ -57,10 +57,9 @@ def eval_epoch(model, dataloader):
         thresholds = {k: 0.5 for k in range(model.config.num_labels)}
 
     try:
-        score = f1_score(np.array(y_true), np.array(y_pred_bin), average="macro")
-    except:  # noqa: E722
-        print(f"YTRUE: {y_true.shape}")
-        print(f"YPRED: {y_pred_bin.shape}")
+        score = f1_score(np.array(y_true), np.array(y_pred_bin), average="macro", zero_division=0)
+    except Exception as e:  # noqa: E722
+        print(e)
         raise
 
     return eval_loss, score, thresholds

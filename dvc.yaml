@@ -9,6 +9,7 @@ stages:
   run_model:
     cmd: poetry run papermill code/02-create_gbert_model.ipynb code/02-create_gbert_model.ipynb
     deps:
+      - code/02-create_gbert_model.ipynb
       - data/labeled_data/train.csv.zip
       - data/labeled_data/test.csv.zip
     outs:
