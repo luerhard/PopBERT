@@ -1,8 +1,7 @@
 schema: '2.0'
 stages:
   annotator_performance:
-    cmd: R -e "renv::activate()" && poetry run papermill code/01-annotator_performance.ipynb
-      code/01-annotator_performance.ipynb
+    cmd: poetry run papermill code/01-annotator_performance.ipynb code/01-annotator_performance.ipynb
     deps:
     - path: code/01-annotator_performance.ipynb
       hash: md5
