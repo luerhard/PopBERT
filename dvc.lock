@@ -21,8 +21,8 @@ stages:
     deps:
     - path: code/02-create_gbert_model.ipynb
       hash: md5
-      md5: 58f67ced2667afdf698334951d97f391
-      size: 760343
+      md5: 8696215f00a6a4c0485086dfc3572430
+      size: 760255
     - path: data/labeled_data/test.csv.zip
       hash: md5
       md5: 33076ef99b0d2f2caad8cbbe01cd9239
@@ -31,9 +31,14 @@ stages:
       hash: md5
       md5: 2e42df91f747a5225a5c4c8fd09adc17
       size: 867879
+    - path: src/bert
+      hash: md5
+      md5: 6769d16e89b659a7d99d77495a166899.dir
+      size: 69867
+      nfiles: 17
     outs:
     - path: results/popbert_model/
       hash: md5
-      md5: 58018b8c63da35aca79fba241e3440c7.dir
+      md5: f02b30e858558b875352c7fb92e7ece6.dir
       size: 1343007526
       nfiles: 2
