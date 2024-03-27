@@ -136,3 +136,27 @@ stages:
       hash: md5
       md5: 451cdbb3b7aad19deb48034cb9ef6a58
       size: 2753804
+  selected_examples:
+    cmd: poetry run papermill code/08-selected_examples_table.ipynb code/08-selected_examples_table.ipynb
+    deps:
+    - path: code/08-selected_examples_table.ipynb
+      hash: md5
+      md5: 07f69be18759d3b16bbee42e86f1a192
+      size: 18276
+    - path: data/interim/gruendl.parquet.gzip
+      hash: md5
+      md5: 451cdbb3b7aad19deb48034cb9ef6a58
+      size: 2753804
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: results/tables/selected_examples.tex
+      hash: md5
+      md5: 018e6183704b436600fd8d03e4806bb9
+      size: 3202

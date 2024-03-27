@@ -37,12 +37,12 @@ stages:
       - data/raw/sentences.parquet.gzip
     outs:
       - data/interim/gruendl.parquet.gzip
-  # selected_examples:
-  #   cmd: poetry run papermill code/08-selected_examples_table.ipynb code/08-selected_examples_table.ipynb
-  #   deps:
-  #     - code/08-selected_examples_table.ipynb
-  #     - data/raw/sentences.parquet.gzip
-  #     - data/interim/sentence_predictions.parquet.gzip
-  #     - data/interim/gruendl.parquet.gzip
-  #   outs:
-  #     - results/tables/selected_examples.tex
+  selected_examples:
+    cmd: poetry run papermill code/08-selected_examples_table.ipynb code/08-selected_examples_table.ipynb
+    deps:
+      - code/08-selected_examples_table.ipynb
+      - data/raw/sentences.parquet.gzip
+      - data/interim/sentence_predictions.parquet.gzip
+      - data/interim/gruendl.parquet.gzip
+    outs:
+      - results/tables/selected_examples.tex
