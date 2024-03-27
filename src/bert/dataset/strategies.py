@@ -42,8 +42,6 @@ class LabelStrategy(metaclass=ABCMeta):
             else:
                 labels = np.array(vote)
 
-            print(labels)
-
             encoding = tokenizer(text, padding=True, return_tensors="pt")
 
             return {
