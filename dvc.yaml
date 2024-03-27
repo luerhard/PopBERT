@@ -10,7 +10,10 @@ stages:
     cmd: poetry run papermill code/02-create_gbert_model.ipynb code/02-create_gbert_model.ipynb
     deps:
       - code/02-create_gbert_model.ipynb
-      - src/bert/
+      - src/bert/training.py
+      - src/bert/utils.py
+      - src/bert/dataset/dataset.py
+      - src/bert/dataset/strategies.py
       - data/labeled_data/train.csv.zip
       - data/labeled_data/test.csv.zip
     outs:
