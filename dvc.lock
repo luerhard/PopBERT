@@ -58,3 +58,45 @@ stages:
       hash: md5
       md5: 946b9cbd8107abbac32bf6938927fc83
       size: 24372099
+  create_gbert_model:
+    cmd: poetry run papermill code/02-create_gbert_model.ipynb code/02-create_gbert_model.ipynb
+    deps:
+    - path: code/02-create_gbert_model.ipynb
+      hash: md5
+      md5: 313691f4528d95ee42b94942960e1753
+      size: 760256
+    - path: data/labeled_data/test.csv.zip
+      hash: md5
+      md5: 33076ef99b0d2f2caad8cbbe01cd9239
+      size: 214424
+    - path: data/labeled_data/train.csv.zip
+      hash: md5
+      md5: 2e42df91f747a5225a5c4c8fd09adc17
+      size: 867879
+    - path: src/bert
+      hash: md5
+      md5: 6769d16e89b659a7d99d77495a166899.dir
+      size: 69867
+      nfiles: 17
+    outs:
+    - path: results/popbert_model/
+      hash: md5
+      md5: aed0fd5dc85db0d21119e231cfba25dd.dir
+      size: 1343007526
+      nfiles: 2
+  make_predictions:
+    cmd: poetry run papermill code/03-make_predictions.ipynb code/03-make_predictions.ipynb
+    deps:
+    - path: code/03-make_predictions.ipynb
+      hash: md5
+      md5: bf6b6a33deeb582ba0a2f40cb5983889
+      size: 7205
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
