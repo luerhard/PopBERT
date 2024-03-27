@@ -74,3 +74,63 @@ stages:
       hash: md5
       md5: aa4653b64ceff2094d5d0f43c5a525e6
       size: 24316246
+  run_gruendl:
+    cmd: Rscript code/08-run_gruendl.R
+    deps:
+    - path: code/08-run_gruendl.R
+      hash: md5
+      md5: 3b59f9d0ba7237600377fd7203f733e7
+      size: 613
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: data/interim/gruendl.parquet.gzip
+      hash: md5
+      md5: 451cdbb3b7aad19deb48034cb9ef6a58
+      size: 2753804
+  selected_examples:
+    cmd: poetry run papermill code/09-selected_examples_table.ipynb code/09-selected_examples_table.ipynb
+    deps:
+    - path: code/09-selected_examples_table.ipynb
+      hash: md5
+      md5: 8d809e745b493ab2386c41083151c096
+      size: 18279
+    - path: data/interim/gruendl.parquet.gzip
+      hash: md5
+      md5: 451cdbb3b7aad19deb48034cb9ef6a58
+      size: 2753804
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: results/tables/selected_examples.tex
+      hash: md5
+      md5: 018e6183704b436600fd8d03e4806bb9
+      size: 3202
+  all_dimensions:
+    cmd: poetry run papermill code/05-all_dimensions.ipynb code/05-all_dimensions.ipynb
+    deps:
+    - path: code/05-all_dimensions.ipynb
+      hash: md5
+      md5: 50016fd01e2aa7bf5d8735db01529790
+      size: 116972
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: results/figures/all_dimensions_normalized.pdf
+      hash: md5
+      md5: 179681c5a9da6146eb295b835146d224
+      size: 10284
