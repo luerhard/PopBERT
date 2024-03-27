@@ -1,0 +1,76 @@
+schema: '2.0'
+stages:
+  annotator_performance:
+    cmd: poetry run papermill code/01-annotator_performance.ipynb code/01-annotator_performance.ipynb
+    deps:
+    - path: code/01-annotator_performance.ipynb
+      hash: md5
+      md5: 578fda66a01a2c9b19ec6a2d519fa637
+      size: 19647
+    - path: data/labeled_data/full.csv.zip
+      hash: md5
+      md5: deb1823412f6e35fd2ad67c90e0dec13
+      size: 1082555
+    outs:
+    - path: results/tables/coder_agreement.tex
+      hash: md5
+      md5: 728d500870ac7eba87e75f057f760278
+      size: 649
+  create_popbert_model:
+    cmd: poetry run papermill code/02-create_gbert_model.ipynb code/02-create_gbert_model.ipynb
+    deps:
+    - path: code/02-create_gbert_model.ipynb
+      hash: md5
+      md5: 026aa6a564c7bfd4fdfd88882efa524f
+      size: 13657
+    - path: data/labeled_data/test.csv.zip
+      hash: md5
+      md5: 33076ef99b0d2f2caad8cbbe01cd9239
+      size: 214424
+    - path: data/labeled_data/train.csv.zip
+      hash: md5
+      md5: 2e42df91f747a5225a5c4c8fd09adc17
+      size: 867879
+    - path: src/bert/
+      hash: md5
+      md5: b5d2ccd126bf25a178648727f0c4bf0a.dir
+      size: 69823
+      nfiles: 17
+    outs:
+    - path: results/popbert_model/
+      hash: md5
+      md5: 0c19d479e9f5fbc6a4ec1d140f315cde.dir
+      size: 1343007526
+      nfiles: 2
+  model_performance:
+    cmd: poetry run papermill code/03-model_performance.ipynb code/03-model_performance.ipynb
+    deps:
+    - path: code/03-model_performance.ipynb
+      hash: md5
+      md5: 15bc33d823b01e56197aa0bdb0b2a5e8
+      size: 13983
+    - path: data/labeled_data/test.csv.zip
+      hash: md5
+      md5: 33076ef99b0d2f2caad8cbbe01cd9239
+      size: 214424
+    outs:
+    - path: results/tables/model_performance.tex
+      hash: md5
+      md5: 8073ee13b22010a2b30f61ff8d3387f4
+      size: 437
+  make_predictions:
+    cmd: poetry run papermill code/04-make_predictions.ipynb code/04-make_predictions.ipynb
+    deps:
+    - path: code/04-make_predictions.ipynb
+      hash: md5
+      md5: f83be3f41a418d355ddc0d805b32c7fb
+      size: 7203
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
