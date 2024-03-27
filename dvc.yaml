@@ -6,41 +6,48 @@ stages:
       - data/labeled_data/full.csv.zip
     outs:
       - results/tables/coder_agreement.tex
-  create_gbert_model:
+  create_popbert_model:
     cmd: poetry run papermill code/02-create_gbert_model.ipynb code/02-create_gbert_model.ipynb
     deps:
       - code/02-create_gbert_model.ipynb
-      - src/bert
+      - src/bert/
       - data/labeled_data/train.csv.zip
       - data/labeled_data/test.csv.zip
     outs:
       - results/popbert_model/
-  make_predictions:
-    cmd: poetry run papermill code/03-make_predictions.ipynb code/03-make_predictions.ipynb
+  model_performance:
+    cmd: poetry run papermill code/03-model_performance.ipynb code/03-model_performance.ipynb
     deps:
-      - code/03-make_predictions.ipynb
+      - code/03-model_performance.ipynb
+      - data/labeled_data/test.csv.zip
+    outs:
+      - results/popbert_model/
+  make_predictions:
+    cmd: poetry run papermill code/04-make_predictions.ipynb code/04-make_predictions.ipynb
+    deps:
+      - code/04-make_predictions.ipynb
       - data/raw/sentences.parquet.gzip
     outs:
       - data/interim/sentence_predictions.parquet.gzip
   all_dimensions:
-    cmd: poetry run papermill code/04-all_dimensions.ipynb code/04-all_dimensions.ipynb
+    cmd: poetry run papermill code/05-all_dimensions.ipynb code/05-all_dimensions.ipynb
     deps:
-      - code/04-all_dimensions.ipynb
+      - code/05-all_dimensions.ipynb
       - data/raw/sentences.parquet.gzip
       - data/interim/sentence_predictions.parquet.gzip
     outs:
       - results/figures/all_dimensions_normalized.pdf
   run_gruendl:
-    cmd: Rscript code/07-run_gruendl.R
+    cmd: Rscript code/08-run_gruendl.R
     deps:
-      - code/07-run_gruendl.R
+      - code/08-run_gruendl.R
       - data/raw/sentences.parquet.gzip
     outs:
       - data/interim/gruendl.parquet.gzip
   selected_examples:
-    cmd: poetry run papermill code/08-selected_examples_table.ipynb code/08-selected_examples_table.ipynb
+    cmd: poetry run papermill code/09-selected_examples_table.ipynb code/09-selected_examples_table.ipynb
     deps:
-      - code/08-selected_examples_table.ipynb
+      - code/09-selected_examples_table.ipynb
       - data/raw/sentences.parquet.gzip
       - data/interim/sentence_predictions.parquet.gzip
       - data/interim/gruendl.parquet.gzip
