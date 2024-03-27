@@ -21,4 +21,4 @@ stages:
       - code/03-make_predictions.ipynb
       - data/raw/sentences.parquet.gzip
     outs:
-      - data/interim/predictions.parquet.gzip
+      - data/interim/sentence_predictions.parquet.gzip
