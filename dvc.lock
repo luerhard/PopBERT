@@ -42,3 +42,19 @@ stages:
       md5: f02b30e858558b875352c7fb92e7ece6.dir
       size: 1343007526
       nfiles: 2
+  create_predictions:
+    cmd: poetry run papermill code/03-make_predictions.ipynb code/03-make_predictions.ipynb
+    deps:
+    - path: code/03-make_predictions.ipynb
+      hash: md5
+      md5: 37a365ba00f454afda1739ea1c45462a
+      size: 7205
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: eea45c4de44ce8cfdb0b0aed6a0900e9
+      size: 55634865
+    outs:
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: 946b9cbd8107abbac32bf6938927fc83
+      size: 24372099
