@@ -21,7 +21,7 @@ stages:
       - code/03-model_performance.ipynb
       - data/labeled_data/test.csv.zip
     outs:
-      - results/popbert_model/
+      - results/tables/model_performance.tex
   make_predictions:
     cmd: poetry run papermill code/04-make_predictions.ipynb code/04-make_predictions.ipynb
     deps:

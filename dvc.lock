@@ -160,3 +160,19 @@ stages:
       hash: md5
       md5: 018e6183704b436600fd8d03e4806bb9
       size: 3202
+  model_performance:
+    cmd: poetry run papermill code/03-model_performance.ipynb code/03-model_performance.ipynb
+    deps:
+    - path: code/03-model_performance.ipynb
+      hash: md5
+      md5: e6e244a07496f0044137933851ec9a12
+      size: 8583
+    - path: data/labeled_data/test.csv.zip
+      hash: md5
+      md5: 33076ef99b0d2f2caad8cbbe01cd9239
+      size: 214424
+    outs:
+    - path: results/tables/model_performance.tex
+      hash: md5
+      md5: f02c6c7c90bceafb10ffb9e06d362e2f
+      size: 437
