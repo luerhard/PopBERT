@@ -56,10 +56,6 @@ def eval_epoch(model, dataloader):
         y_pred_bin = np.argmax(np.array(y_pred), axis=1)
         thresholds = {k: 0.5 for k in range(model.config.num_labels)}
 
-    try:
-        score = f1_score(np.array(y_true), np.array(y_pred_bin), average="macro", zero_division=0)
-    except Exception as e:  # noqa: E722
-        print(e)
-        raise
+    score = f1_score(np.array(y_true), np.array(y_pred_bin), average="macro", zero_division=0)
 
     return eval_loss, score, thresholds

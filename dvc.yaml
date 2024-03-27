@@ -10,7 +10,15 @@ stages:
     cmd: poetry run papermill code/02-create_gbert_model.ipynb code/02-create_gbert_model.ipynb
     deps:
       - code/02-create_gbert_model.ipynb
+      - src/bert
       - data/labeled_data/train.csv.zip
       - data/labeled_data/test.csv.zip
     outs:
       - results/popbert_model/
+  create_predictions:
+    cmd: poetry run papermill code/03-make_predictions.ipynb code/03-make_predictions.ipynb
+    deps:
+      - code/03-make_predictions.ipynb
+      - data/raw/sentences.parquet.gzip
+    outs:
+      - data/interim/predictions.parquet.gzip
