@@ -100,3 +100,23 @@ stages:
       hash: md5
       md5: aa4653b64ceff2094d5d0f43c5a525e6
       size: 24316246
+  all_dimensions:
+    cmd: poetry run papermill code/04-all_dimensions.ipynb code/04-all_dimensions.ipynb
+    deps:
+    - path: code/04-all_dimensions.ipynb
+      hash: md5
+      md5: 7f3426aeb1fa829b75f8a064994018d8
+      size: 116972
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: results/figures/all_dimensions_normalized.pdf
+      hash: md5
+      md5: 07de5d0ee972fb3d0ace2ddea3cc6d26
+      size: 10284

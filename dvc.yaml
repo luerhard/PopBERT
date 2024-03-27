@@ -30,19 +30,19 @@ stages:
       - data/interim/sentence_predictions.parquet.gzip
     outs:
       - results/figures/all_dimensions_normalized.pdf
-  run_gruendl:
-    cmd: Rscript code/07-run_gruendl.R
-    deps:
-      - code/07-run_gruendl.R
-      - data/raw/sentences.parquet.gzip
-    outs:
-      - data/interim/gruendl.parquet.gzip
-  selected_examples:
-    cmd: poetry run papermill code/08-selected_examples_table.ipynb code/08-selected_examples_table.ipynb
-    deps:
-      - code/08-selected_examples_table.ipynb
-      - data/raw/sentences.parquet.gzip
-      - data/interim/sentence_predictions.parquet.gzip
-      - data/interim/gruendl.parquet.gzip
-    outs:
-      - results/tables/selected_examples.tex
+  # run_gruendl:
+  #   cmd: Rscript code/07-run_gruendl.R
+  #   deps:
+  #     - code/07-run_gruendl.R
+  #     - data/raw/sentences.parquet.gzip
+  #   outs:
+  #     - data/interim/gruendl.parquet.gzip
+  # selected_examples:
+  #   cmd: poetry run papermill code/08-selected_examples_table.ipynb code/08-selected_examples_table.ipynb
+  #   deps:
+  #     - code/08-selected_examples_table.ipynb
+  #     - data/raw/sentences.parquet.gzip
+  #     - data/interim/sentence_predictions.parquet.gzip
+  #     - data/interim/gruendl.parquet.gzip
+  #   outs:
+  #     - results/tables/selected_examples.tex
