@@ -120,3 +120,19 @@ stages:
       hash: md5
       md5: 07de5d0ee972fb3d0ace2ddea3cc6d26
       size: 10284
+  run_gruendl:
+    cmd: Rscript code/07-run_gruendl.R
+    deps:
+    - path: code/07-run_gruendl.R
+      hash: md5
+      md5: 3b59f9d0ba7237600377fd7203f733e7
+      size: 613
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: data/interim/gruendl.parquet.gzip
+      hash: md5
+      md5: 451cdbb3b7aad19deb48034cb9ef6a58
+      size: 2753804
