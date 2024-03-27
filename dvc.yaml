@@ -22,3 +22,12 @@ stages:
       - data/raw/sentences.parquet.gzip
     outs:
       - data/interim/sentence_predictions.parquet.gzip
+  all_dimensions_plot:
+    cmd: poetry run papermill code/04-all_dimensions.ipynb code/04-all_dimensions.ipynb
+    deps:
+      - code/04-all_dimensions.ipynb
+      - data/raw/sentences.parquet.gzip
+      - data/interim/sentence_predictions.parquet.gzip
+    outs:
+      - results/figures/all_dimensions_normalized.pdf
+    

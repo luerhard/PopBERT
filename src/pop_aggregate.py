@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-ELITE = "antielite"
+ELITE = "elite"
 CENTR = "pplcentr"
 
 
