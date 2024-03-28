@@ -1,0 +1,5 @@
+outs:
+- md5: 09ee7bf292843ddf879bfda6c854baac
+  size: 55639885
+  hash: md5
+  path: sentences.parquet.gzip

@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/cell-colors.css') }}">
+    <title>PBert</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/iris.ico') }}">
+  </head>
+  <body>
+    <table class="table table-fixed align-middle mb-0 bg-white" style="width: 90%" align="center">
+      <tr>
+        <tr class="bg-light">
+          <th>Eingabe</th>
+          <th>Model: {{ version }}</th>
+        </tr>
+        <td class="textcol">
+            <form method="get" action="/">
+                <input type="hidden" name="n" value="20" />
+                <input type="hidden" name="user" value="{{ user }}" />
+                <div class="input-group input-group-lg mb-3">
+                    <span class="input-group-text">Satz eingeben</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" id="text" name="text" autocomplete="off" autofocus>
+                    <input class="btn btn-outline-primary" type="submit" value="Abschicken" />
+                </div>
+            </form>
+            <form class="form-inline" method="get" action="/high">
+                <input type="hidden" name="n" value="20" />
+                <input type="hidden" name="user" value="{{ user }}" />
+                <div class="input-group input-group-lg mb-3">
+                    <span class="input-group-text me-1">Sortiere nach</span>
+                    <button class="btn btn-lg btn-outline-secondary me-1" formaction="/random" type="submit">Zufall</button>
+                    <button class="btn btn-lg btn-outline-secondary me-1" type="submit" name="sortby" value="pop_antielite">Anti-Elite</button>
+                    <button class="btn btn-lg btn-outline-secondary me-1" type="submit" name="sortby" value="pop_pplcentr">Volkszentrismus</button>
+                    <!-- <button class="btn btn-lg btn-outline-secondary me-1" type="submit" name="sortby" value="souv_eliteless">Elite-Less</button>
+                    <button class="btn btn-lg btn-outline-secondary me-1" type="submit" name="sortby" value="souv_pplmore">People-More</button>
+                    <button class="btn btn-lg btn-outline-secondary me-1" type="submit" name="sortby" value="ideol_left">Left</button>
+                    <button class="btn btn-lg btn-outline-secondary me-1" type="submit" name="sortby" value="ideol_right">Right</button> -->
+                </div>
+            </form>
+        </td>
+        <td>
+        </td>
+      </tr>
+      </table>
+      <table class="table table-fixed table-hover align-middle bg-white" style="width: 90%" align="center">
+      <tr class="fw-bold bg-light">
+      <th class="textcol">Text</th>
+      <th class="predcol">Anti-Elite</th>
+      <th class="predcol">People-Centrism</th>
+      <!-- <th class="predcol">Elite-Less</th>
+      <th class="predcol">People-More</th>
+      <th class="predcol">Left</th>
+      <th class="predcol" style="width: 5%;">Right</th>-->
+      {% for item in data %}
+      </tr>
+      <tr>
+        <td class="textcol">{{ item.message }}</td>
+        {% for result in item.result %}
+          <td align="center" class="{{ result[0] }}" style="padding: 10px">{{ result[1] }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

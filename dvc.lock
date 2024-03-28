@@ -1,0 +1,199 @@
+schema: '2.0'
+stages:
+  annotator_performance:
+    cmd: poetry run papermill code/01-annotator_performance.ipynb code/01-annotator_performance.ipynb
+    deps:
+    - path: code/01-annotator_performance.ipynb
+      hash: md5
+      md5: 578fda66a01a2c9b19ec6a2d519fa637
+      size: 19647
+    - path: data/labeled_data/full.csv.zip
+      hash: md5
+      md5: deb1823412f6e35fd2ad67c90e0dec13
+      size: 1082555
+    outs:
+    - path: results/tables/coder_agreement.tex
+      hash: md5
+      md5: 728d500870ac7eba87e75f057f760278
+      size: 649
+  create_popbert_model:
+    cmd: poetry run papermill code/02-create_gbert_model.ipynb code/02-create_gbert_model.ipynb
+    deps:
+    - path: code/02-create_gbert_model.ipynb
+      hash: md5
+      md5: 7b18e31b22165b4689a631314e224bfd
+      size: 13654
+    - path: data/labeled_data/test.csv.zip
+      hash: md5
+      md5: 33076ef99b0d2f2caad8cbbe01cd9239
+      size: 214424
+    - path: data/labeled_data/train.csv.zip
+      hash: md5
+      md5: 2e42df91f747a5225a5c4c8fd09adc17
+      size: 867879
+    - path: src/bert/dataset/dataset.py
+      hash: md5
+      md5: b9b2b3202d1944c641396cad9b247810
+      size: 5183
+    - path: src/bert/dataset/strategies.py
+      hash: md5
+      md5: 76cf8a3043182c088eb8585bc8e3c974
+      size: 9393
+    - path: src/bert/training.py
+      hash: md5
+      md5: 0925d8571435dbba9a22ad7bdbe01ada
+      size: 2122
+    - path: src/bert/utils.py
+      hash: md5
+      md5: d1f02f7d0e8e328a0f735519e677ef3b
+      size: 3073
+    outs:
+    - path: results/popbert_model/
+      hash: md5
+      md5: 461659d9b691750f39f2b6631955db9d.dir
+      size: 1343007526
+      nfiles: 2
+  model_performance:
+    cmd: poetry run papermill code/03-model_performance.ipynb code/03-model_performance.ipynb
+    deps:
+    - path: code/03-model_performance.ipynb
+      hash: md5
+      md5: 15bc33d823b01e56197aa0bdb0b2a5e8
+      size: 13983
+    - path: data/labeled_data/test.csv.zip
+      hash: md5
+      md5: 33076ef99b0d2f2caad8cbbe01cd9239
+      size: 214424
+    outs:
+    - path: results/tables/model_performance.tex
+      hash: md5
+      md5: 8073ee13b22010a2b30f61ff8d3387f4
+      size: 437
+  make_predictions:
+    cmd: poetry run papermill code/04-make_predictions.ipynb code/04-make_predictions.ipynb
+    deps:
+    - path: code/04-make_predictions.ipynb
+      hash: md5
+      md5: f83be3f41a418d355ddc0d805b32c7fb
+      size: 7203
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+  run_gruendl:
+    cmd: Rscript code/08-run_gruendl.R
+    deps:
+    - path: code/08-run_gruendl.R
+      hash: md5
+      md5: 3b59f9d0ba7237600377fd7203f733e7
+      size: 613
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: data/interim/gruendl.parquet.gzip
+      hash: md5
+      md5: 451cdbb3b7aad19deb48034cb9ef6a58
+      size: 2753804
+  selected_examples:
+    cmd: poetry run papermill code/09-selected_examples_table.ipynb code/09-selected_examples_table.ipynb
+    deps:
+    - path: code/09-selected_examples_table.ipynb
+      hash: md5
+      md5: 8d809e745b493ab2386c41083151c096
+      size: 18279
+    - path: data/interim/gruendl.parquet.gzip
+      hash: md5
+      md5: 451cdbb3b7aad19deb48034cb9ef6a58
+      size: 2753804
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: results/tables/selected_examples.tex
+      hash: md5
+      md5: 018e6183704b436600fd8d03e4806bb9
+      size: 3202
+  all_dimensions:
+    cmd: poetry run papermill code/05-all_dimensions.ipynb code/05-all_dimensions.ipynb
+    deps:
+    - path: code/05-all_dimensions.ipynb
+      hash: md5
+      md5: 2f620b01343a46c8b90d233dde1b0d80
+      size: 16282
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: results/figures/all_dimensions_normalized.pdf
+      hash: md5
+      md5: 77ff82cf19db29254587d17948757482
+      size: 10284
+    - path: results/figures/all_dimensions_orig.pdf
+      hash: md5
+      md5: 4d6e9e359c054e1709bdecc8ac154eee
+      size: 10243
+  populism_by_politician:
+    cmd: poetry run papermill code/06-populism_by_politician.ipynb code/06-populism_by_politician.ipynb
+    deps:
+    - path: code/06-populism_by_politician.ipynb
+      hash: md5
+      md5: aa83e7180d813d5dc075416b0f7c03ef
+      size: 58246
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    - path: src/pop_aggregate.py
+      hash: md5
+      md5: 10e542ccfb5c6bedfe5733bdc59ac878
+      size: 681
+    outs:
+    - path: results/tables/populist_politicians.tex
+      hash: md5
+      md5: e604f18feff823bd1e7cc50afa86515e
+      size: 612
+  populism_by_speech:
+    cmd: poetry run papermill code/07-populism_by_speech.ipynb code/07-populism_by_speech.ipynb
+    deps:
+    - path: code/07-populism_by_speech.ipynb
+      hash: md5
+      md5: 6c1c3b3e27308ec8d9d5118e98f75376
+      size: 23367
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: results/figures/populism_by_party_measures_normalized.pdf
+      hash: md5
+      md5: 5f0b7a93de7b3eb9671138e5ca7d5028
+      size: 9576
+    - path: results/figures/populism_by_party_measures_orig.pdf
+      hash: md5
+      md5: 4029f3f6c2892e072cd5db84e0bb006b
+      size: 9653

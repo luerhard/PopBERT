@@ -1,0 +1,53 @@
+th.textcol {
+  width: auto !important;
+}
+
+th.predcol {
+  width: 5% !important;
+}
+
+td.textcol {
+  text-align: center;
+}
+
+td.perc0 {
+  background-color: #ecf5fe !important;
+  color: black;
+}
+td.perc1 {
+  background-color: #ecf5fe !important;
+  color: black;
+}
+td.perc2 {
+  background-color: #d9ebfd !important;
+  color: black;
+}
+td.perc3 {
+  background-color: #c5e2fc !important;
+  color: black;
+}
+
+td.perc4 {
+  background-color: #b1d8fb !important;
+  color: black;
+}
+td.perc5 {
+  background-color: #9bcefa !important;
+  color: black;
+}
+td.perc6 {
+  background-color: #84c5f8 !important;
+  color: black;
+}
+td.perc7 {
+  background-color: #6abcf7 !important;
+  color: black;
+}
+td.perc8 {
+  background-color: #4ab2f5 !important;
+  color: black;
+}
+td.perc9 {
+  background-color: #03a9f4 !important;
+  color: white;
+}
