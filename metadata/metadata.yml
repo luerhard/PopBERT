@@ -1,0 +1,39 @@
+metadata_version: 1
+name: PopBERT - Replication
+description: |-
+  The rise of populism concerns many political scientists and practitioners, yet, the detection of its underlying language remains fragmentary.
+  This paper aims to provide a reliable, valid, and scalable approach to measure populist rhetoric.
+  For that purpose, we created an annotated dataset based on parliamentary speeches of the German Bundestag (2013--2021).
+  Following the ideational definition of populism, we label moralizing references to ``the virtuous people'' or ``the corrupt elite'' as core dimensions of populist language.
+  To identify, in addition, how the thin ideology of populism is ``thickened'', we annotate how populist statements are attached to left-wing or right-wing host ideologies.
+  We then train a transformer-based model (PopBERT) as a multilabel classifier to detect and quantify each dimension.
+  A battery of validation checks reveals that the model has a strong predictive accuracy, provides high qualitative face validity, matches party rankings of expert surveys, and detects out-of-sample text snippets correctly.
+  PopBERT enables dynamic analyses of how German-speaking politicians and parties use populist language as a strategic device.
+  Furthermore, the annotator-level data may also be applied in cross-domain applications or to develop related classifiers.
+tags:
+- populism
+- text-as-data
+- Natural Language Processing
+- BERT
+- Machine  Learning
+- left-wing-populism
+- right-wing populism
+authors:
+- name: Lukas Erhard
+  affiliations:
+  - name: University of Stuttgart
+- name: Sara Hanke
+  affiliations:
+  - name: University of Stuttgart
+- name: Uwe Remer
+  affiliations:
+  - name: University of Stuttgart
+- name: Agnieszka Falenska
+  affiliations:
+  - name: University of Stuttgart
+- name: Raphael Heiberger
+  affiliations:
+  - name: University of Stuttgart
+corresponding_contributor:
+  name: Lukas Erhard
+  email: lukas.erhard@sowi.uni-stuttgart.de
