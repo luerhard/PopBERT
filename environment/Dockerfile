@@ -28,6 +28,3 @@ RUN apt-get update \
 RUN pip3 install -U --no-cache-dir \
     dvc[all]==3.49.0 \
     poetry==1.8.2
-
-COPY postInstall /
-RUN /postInstall
