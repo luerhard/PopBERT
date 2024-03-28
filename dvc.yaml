@@ -56,3 +56,12 @@ stages:
       - data/interim/gruendl.parquet.gzip
     outs:
       - results/tables/selected_examples.tex
+  populism_by_politician:
+    cmd: poetry run papermill code/06-populism_by_politician.ipynb code/06-populism_by_politician.ipynb
+    deps:
+      - code/06-populism_by_politician.ipynb
+      - src/pop_aggregate.py
+      - data/raw/sentences.parquet.gzip
+      - data/interim/sentence_predictions.parquet.gzip
+    outs:
+      - results/tables/populist_politicians.tex

@@ -145,3 +145,27 @@ stages:
       hash: md5
       md5: 179681c5a9da6146eb295b835146d224
       size: 10284
+  populism_by_politician:
+    cmd: poetry run papermill code/06-populism_by_politician.ipynb code/06-populism_by_politician.ipynb
+    deps:
+    - path: code/06-populism_by_politician.ipynb
+      hash: md5
+      md5: aa83e7180d813d5dc075416b0f7c03ef
+      size: 58246
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    - path: src/pop_aggregate.py
+      hash: md5
+      md5: 10e542ccfb5c6bedfe5733bdc59ac878
+      size: 681
+    outs:
+    - path: results/tables/populist_politicians.tex
+      hash: md5
+      md5: e604f18feff823bd1e7cc50afa86515e
+      size: 612
