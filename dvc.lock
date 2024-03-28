@@ -130,8 +130,8 @@ stages:
     deps:
     - path: code/05-all_dimensions.ipynb
       hash: md5
-      md5: 50016fd01e2aa7bf5d8735db01529790
-      size: 116972
+      md5: 2f620b01343a46c8b90d233dde1b0d80
+      size: 16282
     - path: data/interim/sentence_predictions.parquet.gzip
       hash: md5
       md5: aa4653b64ceff2094d5d0f43c5a525e6
@@ -143,8 +143,12 @@ stages:
     outs:
     - path: results/figures/all_dimensions_normalized.pdf
       hash: md5
-      md5: 179681c5a9da6146eb295b835146d224
+      md5: 77ff82cf19db29254587d17948757482
       size: 10284
+    - path: results/figures/all_dimensions_orig.pdf
+      hash: md5
+      md5: 4d6e9e359c054e1709bdecc8ac154eee
+      size: 10243
   populism_by_politician:
     cmd: poetry run papermill code/06-populism_by_politician.ipynb code/06-populism_by_politician.ipynb
     deps:
@@ -169,3 +173,27 @@ stages:
       hash: md5
       md5: e604f18feff823bd1e7cc50afa86515e
       size: 612
+  populism_by_speech:
+    cmd: poetry run papermill code/07-populism_by_speech.ipynb code/07-populism_by_speech.ipynb
+    deps:
+    - path: code/07-populism_by_speech.ipynb
+      hash: md5
+      md5: 6c1c3b3e27308ec8d9d5118e98f75376
+      size: 23367
+    - path: data/interim/sentence_predictions.parquet.gzip
+      hash: md5
+      md5: aa4653b64ceff2094d5d0f43c5a525e6
+      size: 24316246
+    - path: data/raw/sentences.parquet.gzip
+      hash: md5
+      md5: 09ee7bf292843ddf879bfda6c854baac
+      size: 55639885
+    outs:
+    - path: results/figures/populism_by_party_measures_normalized.pdf
+      hash: md5
+      md5: 5f0b7a93de7b3eb9671138e5ca7d5028
+      size: 9576
+    - path: results/figures/populism_by_party_measures_orig.pdf
+      hash: md5
+      md5: 4029f3f6c2892e072cd5db84e0bb006b
+      size: 9653

@@ -40,6 +40,7 @@ stages:
       - data/interim/sentence_predictions.parquet.gzip
     outs:
       - results/figures/all_dimensions_normalized.pdf
+      - results/figures/all_dimensions_orig.pdf
   run_gruendl:
     cmd: Rscript code/08-run_gruendl.R
     deps:
@@ -65,3 +66,12 @@ stages:
       - data/interim/sentence_predictions.parquet.gzip
     outs:
       - results/tables/populist_politicians.tex
+  populism_by_speech:
+    cmd: poetry run papermill code/07-populism_by_speech.ipynb code/07-populism_by_speech.ipynb
+    deps:
+      - code/07-populism_by_speech.ipynb
+      - data/raw/sentences.parquet.gzip
+      - data/interim/sentence_predictions.parquet.gzip
+    outs:
+      - results/figures/populism_by_party_measures_normalized.pdf
+      - results/figures/populism_by_party_measures_orig.pdf
