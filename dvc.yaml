@@ -7,9 +7,9 @@ stages:
     outs:
       - results/tables/coder_agreement.tex
   create_popbert_model:
-    cmd: poetry run papermill code/02-create_gbert_model.ipynb code/02-create_gbert_model.ipynb
+    cmd: poetry run papermill code/02-create_popbert_model.ipynb code/02-create_popbert_model.ipynb
     deps:
-      - code/02-create_gbert_model.ipynb
+      - code/02-create_popbert_model.ipynb
       - src/bert/training.py
       - src/bert/utils.py
       - src/bert/dataset/dataset.py
