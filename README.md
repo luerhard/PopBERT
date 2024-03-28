@@ -57,13 +57,61 @@ libpng-dev
 libtiff5-dev
 libjpeg-dev
 libbz2-dev
+libcurl4-openssl-dev
 ```
 
-# Replication of all stages
+# Replication of results
 
+## Manual Replication of the results
 
+Please note that the tables are printed as `LaTeX` code which we manually edited to adjust the look of the table where necessary.
 
-## stage dependency graph
+## Table 1: Number of annotated sentences in the dataset
+
+To recreate this table, run `code/01-annotator_performance.ipynb`.
+It reads the data from the file `data/labeled_data/full.csv.zip`, and saves the result as `results/tables/coder_agreement.tex`.
+
+## The Model
+
+Please note here: To our knowledge, it is virtually impossible to create BERT Transformer models that are 100% replicable. This is not only dependent on different seeds, the transformer and the PyTorch version, but replicability is also not given across different CUDA versions, GPU and even CPU models. We are therefore taking a compromise approach here. 
+
+The model we created with the script `02-create_popbert_model.ipynb` is published version-controlled on huggingface and is used with the commit hash from number 03 in the notebook series under `code/`. 
+
+If you want to use the model you have calculated, replace the following code block:
+
+```
+COMMIT_HASH = "cf44004e90045cde298e28605ff105747d58aa7a"
+
+tokenizer = AutoTokenizer.from_pretrained("luerhard/PopBERT", revision=COMMIT_HASH)
+model = AutoModelForSequenceClassification.from_pretrained(
+    "luerhard/PopBERT", revision=COMMIT_HASH
+).to(DEVICE)
+```
+
+with
+
+```
+tokenizer = AutoTokenizer.from_pretrained("luerhard/PopBERT", revision=COMMIT_HASH)
+model = AutoModelForSequenceClassification.from_pretrained(
+  str(str.PATH / "results/popbert_model"), use_local_files_only=True
+).to(DEVICE)
+```
+
+This replacement is possible in the following notebooks:
+
+- `code/03-model_performance.ipynb`
+- `code/04-make_predictions.ipynb`
+
+Note, however, that the subsequent results are similar but not necessarily identical to the ones, published in the main article.
+
+## Table 2: Performance of the model on the 20% test set
+
+To recreate this table, run `code/03-model_performance.ipynb`.
+It reads data from the file `data/labeled_data/test.csv.zip` and saves the result to `results/tables/model_performance.tex`.
+
+## Replication using Data Version Control (DVC)
+
+### stage dependency graph
 
 ```
 
